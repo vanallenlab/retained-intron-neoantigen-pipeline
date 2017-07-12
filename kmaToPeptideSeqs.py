@@ -1,6 +1,5 @@
 # ----------------------------------------------------------------------------------------------- #
 # Claire Margolis
-# 23 February 2017
 # kmaToPeptideSeqs.py
 
 # Summary: Reads in KMA output .flat_filtered.csv file, extracts chromosome locations for each 
@@ -9,8 +8,8 @@
 # start and their orientation wrt the intron start site). Translates to protein and then stores the 
 # sequence output in a file, as well as the list of unique introns. 
 
-# Input format: python kmaToFasta.py ____.flat_filtered.csv 9 outdirpath
-# 	"19" is default for netMHCI (9 AA window = 27 bases before intron start)
+# Input format: python kmaToFasta.py ____.flat_filtered.csv 10 outdirpath
+# 	"10" is default for netMHCI (10 AA window = 30 bases before intron start)
 # 	"15" is default for netMHCII (15 AA window = 45 bases before intron start)
 
 # Output format: 
@@ -39,7 +38,7 @@ import bisect
 # Summary: Reads in intron chromosome locations from KMA output .csv file, extracts unique 
 # sequences, saves them in an array for use in subsequent functions, writes them to .txt file.
 def createUniqueIntronList(csvfile, outpath):
-	# Read in chromosome locations (column 1) from file
+	# Read in chromosome locations (column 1) from KMA output file
 	chromlocs = np.loadtxt(csvfile, dtype=str, delimiter=',', skiprows=1, usecols=[1])
 	# Only extract unique chromosomal locations
 	uniquelocs = np.unique(chromlocs)

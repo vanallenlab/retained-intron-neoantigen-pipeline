@@ -1,9 +1,8 @@
 # ----------------------------------------------------------------------------------------------- #
 # Claire Margolis
-# 30 September 2016
 # splitKMA.py
 
-# Summary: Takes in KMA file, patient ID (e.g. CR1509), and outfile path, and outputs a modified 
+# Summary: Takes in KMA file, patient ID, and outfile path, and outputs a modified 
 # KMA file containing only the retained intron locations that correpond to the patient of 
 # interest. This is meant to be run in a shell script that will batch run this for each patient 
 # in the cohort. 

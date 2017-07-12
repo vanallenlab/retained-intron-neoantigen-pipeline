@@ -1,10 +1,9 @@
 # ----------------------------------------------------------------------------------------------- #
 # Claire Margolis
-# 11 October 2016
 # postprocessOutput.py
 #
-# Summary: Takes in NETMHC_out.xls file and does postprocessing to create a more user-friendly 
-# output format.
+# Summary: Takes in NETMHC_out.xls (tab-delimited text file) and processes to create a more 
+# user-friendly output format.
 # Input format: python postprocessOutput.py NETMHCpan_out.xls patientID outpath
 # Output format: processedNETMHCpan_out.txt
 # ----------------------------------------------------------------------------------------------- #

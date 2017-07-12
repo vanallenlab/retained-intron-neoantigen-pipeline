@@ -1,11 +1,10 @@
 # ----------------------------------------------------------------------------------------------- #
 # Claire Margolis
-# 30 September 2016
 # runNetMHCpan.py
 
 # Summary: Takes in a fasta file containing all peptide sequences upon which netMHCpan (either I, 
 # II, or both) is to be run, runs netMHCpan I or II (or both) depending on the user's selection, 
-# writes output to an Excel file (this is a netMHCpan default)
+# writes output to a tab-delimited text file.
 
 # Input format: python runNetMHCpan.py FASTAproteinsequences.txt HLAalleles.txt '1,2' outpath
 # 	Options for specifying which netMHCpan version: 
@@ -36,9 +35,7 @@ import subprocess
 
 # ----------------------------------------------------------------------------------------------- #
 # Function: runNetMHCIpan
-# Inputs: FASTA file of peptide sequences, patient HLA alleles (these are automatically given 
-# by Polysolver and come in a .txt file that needs to be pre-processed into the correct format for 
-# netMHCpan), outpath 
+# Inputs: FASTA file of peptide sequences, patient HLA alleles (in a format specified above), outpath 
 # Returns: None (netMHCIpan will automatically write output to a .xls file
 # Summary: Pre-processes patient HLA alleles, runs netMHCIpan. 
 def runNetMHCIpan(pepfile, hlafile, outpath):
