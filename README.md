@@ -1,6 +1,6 @@
 # retained-intron-neoantigen-pipeline
 
-This pipeline calls RNA-based neoantigens from intron retention events derived from RNA-Seq data. 
+This pipeline calls RNA-based neoantigens from intron retention events derived from RNA-Seq data and identified through the KMA package (see run instructions below for further detail on this).
 
 To run: 
 - Download NetMHCPan-3.0 (http://www.cbs.dtu.dk/cgi-bin/nph-sw_request?netMHCpan) and change paths in runNetMHCpan.py file (line 62).
@@ -12,4 +12,4 @@ To run:
 
 Additional notes:
 - Detailed execution instructions and functionality descriptions can be found in each script header, as well as for each individual function.
-- Feel free to create an Issue if you have ...issues :)
+- Feel free to create a GitHub Issue if you have ...issues :)
