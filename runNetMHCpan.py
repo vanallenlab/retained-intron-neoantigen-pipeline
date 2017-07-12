@@ -2,15 +2,11 @@
 # Claire Margolis
 # runNetMHCpan.py
 
-# Summary: Takes in a fasta file containing all peptide sequences upon which netMHCpan (either I, 
-# II, or both) is to be run, runs netMHCpan I or II (or both) depending on the user's selection, 
-# writes output to a tab-delimited text file.
+# Summary: Takes in a fasta file containing all peptide sequences upon which netMHCpan is to be run, 
+# runs netMHCpan, writes output to a tab-delimited text file.
 
-# Input format: python runNetMHCpan.py FASTAproteinsequences.txt HLAalleles.txt '1,2' outpath
-# 	Options for specifying which netMHCpan version: 
-# 	'1,2' = both netMHCIpan and netMHCIIpan
-#	'1' = netMHCIpan
-#	'2' = netMHCIIpan
+# Input format: python runNetMHCpan.py FASTAproteinsequences.txt HLAalleles.txt outpath
+
 # *RELEVANT*: HLA allele input file can be in one of two formats: 
 #	1. Polysolver winners_hla.txt output file
 # 		example line from file: HLA-A   hla_a_02_01_01_01       hla_a_32_01_01
@@ -71,26 +67,16 @@ def runNetMHCIpan(pepfile, hlafile, outpath):
 # Main function
 def main():
 	 # Check to make sure we have the right number of inputs
-	if len(sys.argv) != 5:
+	if len(sys.argv) != 4:
 		print 'Error: incorrect number of inputs.'
-		print 'Please input a FASTA file, a HLAalleles.txt file, a netMHCpan version, and an outpath.'
+		print 'Please input a FASTA file, a HLAalleles.txt file, and an outpath.'
 		sys.exit()
 	# Parse inputs
 	fasta = sys.argv[1]
 	alleles = sys.argv[2]
-	versionchoice = sys.argv[3]
-	outpath = sys.argv[4]
-	# Split versionchoice
-	versions = versionchoice.split(',')
-	if len(versions) == 1:
-		if versions[0] == '1':
-			runNetMHCIpan(fasta, alleles, outpath)
-		else:
-			runNetMHCIIpan(fasta, alleles, outpath)
-	else:
-		runNetMHCIpan(fasta, alleles, outpath)
-		runNetMHCIIpan(fasta, alleles, outpath)
-			
+	outpath = sys.argv[3]
+	runNetMHCIpan(fasta, alleles, outpath)
+	
 	return
 
 if __name__ == '__main__':

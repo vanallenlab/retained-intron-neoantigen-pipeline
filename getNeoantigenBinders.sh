@@ -1,14 +1,12 @@
 # ------------------------------------------------------------------------------------------------ #
 # Claire Margolis
-# 23 February 2017
 # getNeoantigenBinders.sh
 
 # Summary: Shell script to run a series of python scripts to go through the pipeline from 
 # KMA to netMHC for all patients in sample
 # *NOTE*: If you want to run this script, go through and verify that the paths to relevant files
 # are in the correct format for your cohort. You will need to change out_dir.txt, among other 
-# things, to make the script specific to your cohort. You can also change preferences for running
-# netMHCIpan vs. netMHCIIpan. 
+# things, to make the script specific to your cohort.
 
 # ----------------------------------------------------------------------------------------------- #
 
@@ -62,10 +60,9 @@ python /xchip/cga_home/margolis/retainedIntron/goldStandard/kmaToPeptideSeqs.py 
 # ----------------------------------------------------------------------------------------------- #
 # Run runNetMHCpan.py on each patient
 # ( Runs netMHCpan with retained-intron peptides and HLA-alleles specific to each patient )
-# NOTE:: Use "1" to run netMHCpanI program and "2" to run netMHCpanII
 
 echo 'Running runNetMHCpan.py.'
-python /xchip/cga_home/margolis/retainedIntron/goldStandard/runNetMHCpan.py $PAT_DIR/peptideSeqsFASTA.txt ../$PAT_DIR/hla_alleles.txt '1' $PAT_DIR
+python /xchip/cga_home/margolis/retainedIntron/goldStandard/runNetMHCpan.py $PAT_DIR/peptideSeqsFASTA.txt ../$PAT_DIR/hla_alleles.txt $PAT_DIR
 
 # ----------------------------------------------------------------------------------------------- #
 

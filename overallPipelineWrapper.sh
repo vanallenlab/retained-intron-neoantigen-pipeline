@@ -120,10 +120,9 @@ python /xchip/cga_home/margolis/retainedIntron/goldStandard/kmaToPeptideSeqs.py 
 # ----------------------------------------------------------------------------------------------- #
 # Run runNetMHCpan.py on each patient
 # ( Runs netMHCpan with retained-intron peptides and HLA-alleles specific to each patient )
-# NOTE:: Use "1" to run netMHCpanI program and "2" to run netMHCpanII
 
 echo 'Running runNetMHCpan.py.'
-python /xchip/cga_home/margolis/retainedIntron/goldStandard/runNetMHCpan.py $PAT_DIR/peptideSeqsFASTA.txt ../$PAT_DIR/hla_alleles.txt '1' $PAT_DIR
+python /xchip/cga_home/margolis/retainedIntron/goldStandard/runNetMHCpan.py $PAT_DIR/peptideSeqsFASTA.txt ../$PAT_DIR/hla_alleles.txt $PAT_DIR
 
 # ----------------------------------------------------------------------------------------------- #
 
