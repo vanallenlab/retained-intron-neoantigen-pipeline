@@ -9,7 +9,7 @@
 # sequence output in a file, as well as the list of unique introns. 
 
 # Input format: python kmaToFasta.py ____.flat_filtered.csv 10 outdirpath
-# 	"10" is default for netMHCI (10 AA window = 30 bases before intron start)
+# 	"9" is default for netMHCI (9 AA window = 27 bases before intron start)
 # 	"15" is default for netMHCII (15 AA window = 45 bases before intron start)
 
 # Output format: 

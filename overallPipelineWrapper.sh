@@ -113,7 +113,7 @@ python /xchip/cga_home/margolis/retainedIntron/goldStandard/splitKMA.py /xchip/c
 # ( Converts kma output into FASTA peptide files for each retained intron )
 
 echo 'Running kmaToPeptideSeqs.py.'
-python /xchip/cga_home/margolis/retainedIntron/goldStandard/kmaToPeptideSeqs.py $PAT_DIR/kma_results.txt 10 $PAT_DIR
+python /xchip/cga_home/margolis/retainedIntron/goldStandard/kmaToPeptideSeqs.py $PAT_DIR/kma_results.txt 9 $PAT_DIR
 
 # ----------------------------------------------------------------------------------------------- #
 
