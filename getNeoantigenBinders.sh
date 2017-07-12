@@ -74,7 +74,7 @@ python /xchip/cga_home/margolis/retainedIntron/goldStandard/runNetMHCpan.py $PAT
 # ( Processes netMHCpan output file to a more user-friendly, relevant format )
 
 echo 'Running postprocessOutput.py.'
-python /xchip/cga_home/margolis/retainedIntron/goldStandard/postprocessOutput.py $PAT_DIR/NETMHCpan_out.xls $PAT_DIR $PAT_DIR
+python /xchip/cga_home/margolis/retainedIntron/goldStandard/postprocessOutput.py $PAT_DIR/NETMHCpan_out.xls $PAT_DIR/headermap.txt $PAT_DIR $PAT_DIR
 
 # ----------------------------------------------------------------------------------------------- #
 

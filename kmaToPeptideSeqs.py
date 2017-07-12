@@ -34,20 +34,22 @@ import bisect
 # ----------------------------------------------------------------------------------------------- #
 # Function: createUniqueIntronList()
 # Inputs: kma .flat_filtered.csv file, outfile path
-# Returns: List of unique intron chromosomal locations
+# Returns: List of unique intron chromosomal locations, list of corresponding TPM values
 # Summary: Reads in intron chromosome locations from KMA output .csv file, extracts unique 
-# sequences, saves them in an array for use in subsequent functions, writes them to .txt file.
+# sequences and their TPM values, saves them in an array for use in subsequent functions, 
+# writes them to .txt file.
 def createUniqueIntronList(csvfile, outpath):
-	# Read in chromosome locations (column 1) from KMA output file
-	chromlocs = np.loadtxt(csvfile, dtype=str, delimiter=',', skiprows=1, usecols=[1])
+	# Read in chromosome locations and TPM values (columns 1 and 4) from KMA output file
+	chromlocs = np.loadtxt(csvfile, dtype=str, delimiter=',', skiprows=1, usecols=[1,4])
 	# Only extract unique chromosomal locations
-	uniquelocs = np.unique(chromlocs)
+	_, indices = np.unique(chromlocs[:,0], return_index=True)
+	uniquelocs = chromlocs[indices,:]
 	uniquelocs = np.core.defchararray.strip(uniquelocs, '"')  # Strip "s from locations
 	# Write contents of uniquelocs array to file (for reference later)
 	filepath = outpath+'/'+'uniqueIntronList.txt'
-	np.savetxt(filepath, uniquelocs, fmt='%s')
-	# Return unique list of intron locations
-	return uniquelocs
+	np.savetxt(filepath, uniquelocs, fmt='%s', delimiter='\t')
+	# Return unique list of intron locations and corresponding TPM values
+	return list(uniquelocs[:,0]),list(uniquelocs[:,1])
 # ----------------------------------------------------------------------------------------------- #
 
 
@@ -85,14 +87,19 @@ def manualTranslate(fastasequence):
 
 # ----------------------------------------------------------------------------------------------- #
 # Function: getSeqs() 
-# Inputs: list of unique intron chromosome locations, window size (number of AAs around start site)
+# Inputs: list of unique intron chromosome locations and their expression values, window size (
+# number of AAs around start site)
 # Returns: None
 # Summary: Parses out chromosome and intron start location, then expands window size according to 
 # cases (1) and (2) requirements, calls UCSC table browser twoBitToFa() function to get 
-# corresponding FASTA sequences, writes to output file.
-def getSeqs(intronlocs, nAAs, outpath):
+# corresponding FASTA sequences, writes to output file. Also writes corresponding file mapping 
+# headers 
+def getSeqs(intronlocs, tpms, nAAs, outpath):
 	outfile = open(outpath + '/peptideSeqsFASTA.txt','a')
-	for loc in intronlocs:
+	headermapfile = open(outpath + '/headermap.txt','a')
+	for l in range(0, len(intronlocs)):
+		loc = intronlocs[l]
+		tpmval = tpms[l]
 		chrom = loc.split(':')[0]
 		intronstart = loc.split(':')[1].split('-')[0]
 		intronend = loc.split(':')[1].split('-')[1]
@@ -167,7 +174,7 @@ def getSeqs(intronlocs, nAAs, outpath):
                         loc,'/xchip/cga_home/margolis/General/hg19.2bit','stdout']))
                 # Parse output
 		seqlist = twobitoutput.split('\n')
-		headerline = seqlist[0]
+		headerline = seqlist[0]+"|"+tpmval
 		seqlist = seqlist[1:len(seqlist)-1]
 		sequence = ''.join(str(elem) for elem in seqlist)
 		sequence = sequence.upper()
@@ -180,8 +187,10 @@ def getSeqs(intronlocs, nAAs, outpath):
 		if len(peptide) < nAAs:
 			continue
 		else:
-                	outfile.write(headerline+'\n')
+			newheaderline = '>seq'+str(l)
+                	outfile.write(newheaderline+'\n')
                 	outfile.write(peptide+'\n')
+			headermapfile.write(newheaderline+'\t'+headerline+'\n')
 	
 	return
 
@@ -200,9 +209,9 @@ def main():
 	window = int(sys.argv[2])
 	outpath = sys.argv[3]
 	# Create unique intron output file
-	uniqueIntrons = createUniqueIntronList(kmafile, outpath)
+	uniqueIntrons,TPMvals = createUniqueIntronList(kmafile, outpath)
 	# Create nucleotide sequences file
-	getSeqs(uniqueIntrons, window, outpath)
+	getSeqs(uniqueIntrons, TPMvals, window, outpath)
 
 if __name__ == '__main__':
     main()

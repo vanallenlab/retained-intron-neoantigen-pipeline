@@ -18,16 +18,22 @@ import subprocess
 
 # ----------------------------------------------------------------------------------------------- #
 # Function: processFile
-# Inputs: netMHCpan output file, patient ID, outpath
+# Inputs: netMHCpan output file, header map file, patient ID, outpath
 # Returns: None (writes to file) 
 # Summary: Postprocesses the netMHCpan output to eliminate useless rows, change data format from 
 # wide to long, add allele name columns. Writes new data to a file in outpath. 
-def processFile(filename, patID, outpath):
+def processFile(filename, headerfile, patID, outpath):
+	# Read in header map file and make into dictionary
+	headerdict = {}
+	with open(headerfile) as f:
+		for line in f:
+			(key, val) = line.split('\t')
+			headerdict[key[1:len(key)]] = val.strip()[1:len(val.strip())]
 	# Read in first line of file to get number and names of alleles
 	with open(filename, 'r') as f:
 	    alleles = f.readline().strip().split('\t')
 	alleles = filter(None, alleles)
-	data = np.loadtxt(filename, dtype=str, delimiter='\t', skiprows=2)
+	data = np.loadtxt(filename, dtype='S100', delimiter='\t', skiprows=2)
 	nrow = data.shape[0]
 	ncol = data.shape[1]
 	# Remove all rows with last column (NB) == 0
@@ -64,9 +70,16 @@ def processFile(filename, patID, outpath):
 		if float(updateddata[i,7]) > 2:
 			toremove.append(i)
 	updateddata = np.delete(updateddata, toremove, 0)
+	# Re-map IDs to headers and add TPM column
+	tpmvec = []
+	for i in range(0, updateddata.shape[0]):
+		currval = headerdict[updateddata[i,2]]
+		updateddata[i,2] = currval.split('|')[0]
+		tpmvec.append(currval.split('|')[1])
+	finaldata = np.column_stack(tuple([updateddata,tpmvec]))
 	# Write updated data to new file
 	outfilepath = outpath+'/'+patID+'processedNETMHCpan_out.txt'
-	np.savetxt(outfilepath, updateddata, fmt='%s', delimiter='\t', header='Pos\tPeptide\tID\tcore\tallele\t1-log50k\tnM\tRank') 
+	np.savetxt(outfilepath, finaldata, fmt='%s', delimiter='\t', comments='', header='Pos\tPeptide\tID\tcore\tallele\t1-log50k\tnM\tRank\tTPM') 
 
 	return
 # ----------------------------------------------------------------------------------------------- #
@@ -75,16 +88,17 @@ def processFile(filename, patID, outpath):
 # Main function
 def main():
         # Check to make sure we have the right number of inputs
-        if len(sys.argv) != 4:
+        if len(sys.argv) != 5:
                 print 'Error: incorrect number of inputs.'
-                print 'Please input a netMHCpan output file, patient ID, and valid outfile path'
+                print 'Please input a netMHCpan output file, a header map file, patient ID, and valid outfile path'
                 sys.exit()
         # Read in inputs
         netmhcfile = sys.argv[1]
-	patientID = sys.argv[2]
-        outfilepath = sys.argv[3]
+	headermapfile = sys.argv[2]
+	patientID = sys.argv[3]
+        outfilepath = sys.argv[4]
         # Process netMHCpan file 
-        processFile(netmhcfile, patientID, outfilepath)
+        processFile(netmhcfile, headermapfile, patientID, outfilepath)
 
         return
 
