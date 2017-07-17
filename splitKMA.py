@@ -42,8 +42,8 @@ def splitFile(kmafile, patient, outfile):
 	# Loop through to get only lines that belong to our patient, write those to outfile
 	for i in range(1, len(lines)):
 		line = lines[i]
-		currpatient = line.split(',')[3]
-		currTPM = line.split(',')[4]
+		currpatient = line.split(',')[2]
+		currTPM = line.split(',')[3]
 		currcounts = line.split(',')[7]
 		if currpatient == '"'+patient+'"' and int(currcounts) > 0 and float(currTPM) > 1:
 			out.write(line+'\n')

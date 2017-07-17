@@ -40,7 +40,7 @@ import bisect
 # writes them to .txt file.
 def createUniqueIntronList(csvfile, outpath):
 	# Read in chromosome locations and TPM values (columns 1 and 4) from KMA output file
-	chromlocs = np.loadtxt(csvfile, dtype=str, delimiter=',', skiprows=1, usecols=[1,4])
+	chromlocs = np.loadtxt(csvfile, dtype=str, delimiter=',', skiprows=1, usecols=[1,3])
 	# Only extract unique chromosomal locations
 	_, indices = np.unique(chromlocs[:,0], return_index=True)
 	uniquelocs = chromlocs[indices,:]
