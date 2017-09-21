@@ -5,10 +5,10 @@
 # Summary: Reads in KMA output .flat_filtered.csv file, extracts chromosome locations for each 
 # unique intron, then focuses on the most biologically relevant scenario: A nucleotide sequence 
 # that starts in preceding exon and has at least 1 AA in intron (we already know where these ORFs 
-# start and their orientation wrt the intron start site). Translates to protein and then stores the 
-# sequence output in a file, as well as the list of unique introns. 
+# start and their orientation wrt the intron start site). Translates to protein until hitting a 
+# stop codon and then stores the sequence output in a file, as well as the list of unique introns. 
 
-# Input format: python kmaToFasta.py ____.flat_filtered.csv 10 outdirpath
+# Input format: python kmaToFasta.py ____.flat_filtered.csv 9 outdirpath
 # 	"9" is default for netMHCI (9 AA window = 27 bases before intron start)
 # 	"15" is default for netMHCII (15 AA window = 45 bases before intron start)
 
@@ -110,7 +110,6 @@ def getSeqs(intronlocs, tpms, nAAs, outpath):
 		# Catch instance where table browser doesn't think there's actually a gene in this region
 		if len(tablebrowserout) < 1:
 			continue
-		# Find the transcript with the most exons/introns if there is more than one and use that 
 		strand = ''
 		exonstarts = []
 		exonends = []
