@@ -12,4 +12,4 @@ To run:
 
 Additional notes:
 - Detailed execution instructions and functionality descriptions can be found in each script header, as well as for each individual function.
-- Feel free to create a GitHub Issue if you have ...issues :)
+- Feel free to create an Issue if errors arise.
